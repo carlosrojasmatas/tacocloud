@@ -7,10 +7,14 @@ import lombok.Data;
 import org.hibernate.validator.constraints.CreditCardNumber;
 
 import java.util.ArrayList;
+import java.util.Date;
 import java.util.List;
 
 @Data
 public final class Order {
+
+    private Long id;
+    private Date placedAt = new Date();
 
     @NotBlank(message = "Delivery name is required")
     private String name;
