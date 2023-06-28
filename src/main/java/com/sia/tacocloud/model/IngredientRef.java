@@ -1,4 +1,4 @@
-package com.sia.tacocloud.repository;
+package com.sia.tacocloud.model;
 
 
 import lombok.Data;
