@@ -1,7 +1,7 @@
 package com.sia.tacocloud.controller;
 
 import com.sia.tacocloud.model.Ingredient;
-import com.sia.tacocloud.model.Order;
+import com.sia.tacocloud.model.TacoOrder;
 import com.sia.tacocloud.model.Taco;
 import com.sia.tacocloud.repository.IngredientsRepository;
 import jakarta.validation.Valid;
@@ -12,7 +12,6 @@ import org.springframework.ui.Model;
 import org.springframework.validation.Errors;
 import org.springframework.web.bind.annotation.*;
 
-import java.util.Arrays;
 import java.util.List;
 import java.util.stream.Collectors;
 import java.util.stream.StreamSupport;
@@ -20,7 +19,7 @@ import java.util.stream.StreamSupport;
 @Controller
 @Slf4j
 @RequestMapping("taco")
-@SessionAttributes("order")
+@SessionAttributes("tacoOrder")
 public class TacoController {
 
     private IngredientsRepository ingredientsRepository;
@@ -52,9 +51,9 @@ public class TacoController {
         }
     }
 
-    @ModelAttribute(name = "order")
-    public Order order() {
-        return new Order();
+    @ModelAttribute(name = "tacoOrder")
+    public TacoOrder order() {
+        return new TacoOrder();
     }
 
     @ModelAttribute(name = "taco")
@@ -76,7 +75,7 @@ public class TacoController {
     @PostMapping
     public String processTaco(@Valid Taco taco,
                               Errors errors,
-                              @ModelAttribute Order order) {
+                              @ModelAttribute TacoOrder order) {
 
         if (errors.hasErrors()) {
             return "/designForm";

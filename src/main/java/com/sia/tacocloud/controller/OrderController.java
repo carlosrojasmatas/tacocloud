@@ -1,21 +1,21 @@
 package com.sia.tacocloud.controller;
 
-import com.sia.tacocloud.model.Order;
+import com.sia.tacocloud.model.TacoOrder;
 import com.sia.tacocloud.repository.OrderRepository;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.ResponseEntity;
 import org.springframework.stereotype.Controller;
 import org.springframework.validation.Errors;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.SessionAttributes;
+import org.springframework.web.bind.annotation.*;
 import org.springframework.web.bind.support.SessionStatus;
+
+import java.util.List;
 
 @Controller
 @RequestMapping("/order")
-@SessionAttributes("order")
+@SessionAttributes("tacoOrder")
 @Slf4j
 public class OrderController {
 
@@ -32,7 +32,7 @@ public class OrderController {
     }
 
     @PostMapping
-    public String processOrder(@Valid Order order, Errors errors, SessionStatus sessionStatus) {
+    public String processOrder(@Valid TacoOrder order, Errors errors, SessionStatus sessionStatus) {
         if (errors.hasErrors()) {
             return "orderForm";
         }
@@ -40,6 +40,13 @@ public class OrderController {
         repository.save(order);
         sessionStatus.setComplete();
         return "redirect:/";
+    }
+
+    @GetMapping("/zip/{zip}")
+    public ResponseEntity<List<TacoOrder>> orderByZip(@PathVariable String zip){
+        var order = repository.findByZip(zip);
+
+        return ResponseEntity.ok(order);
     }
 
 }
