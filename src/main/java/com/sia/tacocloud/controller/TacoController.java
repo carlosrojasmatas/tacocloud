@@ -1,8 +1,6 @@
 package com.sia.tacocloud.controller;
 
-import com.sia.tacocloud.model.Ingredient;
-import com.sia.tacocloud.model.TacoOrder;
-import com.sia.tacocloud.model.Taco;
+import com.sia.tacocloud.model.*;
 import com.sia.tacocloud.repository.IngredientsRepository;
 import jakarta.validation.Valid;
 import lombok.extern.slf4j.Slf4j;
@@ -80,7 +78,13 @@ public class TacoController {
         if (errors.hasErrors()) {
             return "/designForm";
         }
-        order.addTaco(taco);
+
+
+        order.addTaco(new TacoUDT(taco.getTacoName(),
+                taco.getIngredients()
+                        .stream()
+                        .map(i -> new IngredientUDT(i.getName(), i.getType()))
+                        .collect(Collectors.toList())));
         log.info("Processing taco:{} ", taco);
         return "redirect:/order/current";
 

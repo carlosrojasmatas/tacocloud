@@ -1,7 +1,7 @@
 package com.sia.tacocloud.repository;
 
 import com.sia.tacocloud.model.TacoOrder;
-import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.cassandra.repository.Query;
 import org.springframework.data.repository.CrudRepository;
 
 import java.util.Date;
