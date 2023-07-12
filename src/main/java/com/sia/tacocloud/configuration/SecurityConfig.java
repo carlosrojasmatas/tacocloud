@@ -36,13 +36,17 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(req ->
                 req
-                        .requestMatchers("/taco", "/order").hasRole("USER")
+                        .requestMatchers("/taco/**", "/order/**")
+                        .authenticated()
                         .requestMatchers("/", "/**").permitAll());
+        http.oauth2Login(login -> login.loginPage("/login"));
+
         http.formLogin(form -> form
                 .loginPage("/login")
-                .loginProcessingUrl("/authenticate")
                 .defaultSuccessUrl("/taco/design"));
+
         http.csrf(Customizer.withDefaults());
+        http.logout(logout -> logout.logoutSuccessUrl("/"));
         return http.build();
     }
 }
