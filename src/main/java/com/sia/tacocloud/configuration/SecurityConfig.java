@@ -36,6 +36,7 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
         http.authorizeHttpRequests(req ->
                 req
+                        .requestMatchers("/taco/gConfig").permitAll()
                         .requestMatchers("/taco/**", "/order/**")
                         .authenticated()
                         .requestMatchers("/", "/**").permitAll());

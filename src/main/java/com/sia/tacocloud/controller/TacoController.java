@@ -20,28 +20,17 @@ import java.util.stream.StreamSupport;
 @SessionAttributes("tacoOrder")
 public class TacoController {
 
-    private IngredientsRepository ingredientsRepository;
+    private final IngredientsRepository ingredientsRepository;
 
     @Autowired
     public TacoController(IngredientsRepository ingredientsRepository) {
         this.ingredientsRepository = ingredientsRepository;
     }
 
+
+
     @ModelAttribute
     public void addIngredientsToModel(Model model) {
-//        List<Ingredient> ingredients = Arrays.asList(
-//                new Ingredient("FLTO", "Flour Tortilla", Ingredient.Type.WRAP),
-//                new Ingredient("COTO", "Corn Tortilla", Ingredient.Type.WRAP),
-//                new Ingredient("GRBF", "Ground Beef", Ingredient.Type.PROTEIN),
-//                new Ingredient("CARN", "Carnitas", Ingredient.Type.PROTEIN),
-//                new Ingredient("TMTO", "Diced Tomatoes", Ingredient.Type.VEGGIES),
-//                new Ingredient("LETC", "Lettuce", Ingredient.Type.VEGGIES),
-//                new Ingredient("CHED", "Cheddar", Ingredient.Type.CHEESE),
-//                new Ingredient("JACK", "Monterrey Jack", Ingredient.Type.CHEESE),
-//                new Ingredient("SLSA", "Salsa", Ingredient.Type.SAUCE),
-//                new Ingredient("SRCR", "Sour Cream", Ingredient.Type.SAUCE)
-//        );
-
         Iterable<Ingredient> ingredients = ingredientsRepository.findAll();
         Ingredient.Type[] types = Ingredient.Type.values();
         for (Ingredient.Type type : types) {
@@ -69,6 +58,7 @@ public class TacoController {
                 .filter(i -> i.getType().equals(type))
                 .collect(Collectors.toList());
     }
+
 
     @PostMapping
     public String processTaco(@Valid Taco taco,
